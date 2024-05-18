@@ -3,6 +3,7 @@ import './App.css';
 import { Button, ChakraProvider, Text } from '@chakra-ui/react'
 import axios from "axios"
 import { useState } from 'react';
+import { Canvas } from '@react-three/fiber'
 
 function App() {
 
@@ -37,13 +38,21 @@ function App() {
 
 
   return (
-    <ChakraProvider>
-      <div className="App">
-        <Text>Upload your PDF here</Text>
-        <input type="file" onChange={handleFileChange} accept="application/pdf"/>
-        <Button onClick={handleUpload}>Upload PDF</Button>
-      </div>
-    </ChakraProvider>
+    // <ChakraProvider>
+    //   <div className="App">
+    //     <Text>Upload your PDF here</Text>
+    //     <input type="file" onChange={handleFileChange} accept="application/pdf"/>
+    //     <Button onClick={handleUpload}>Upload PDF</Button>
+    //   </div>
+    // </ChakraProvider>
+
+      <>
+        <mesh>
+          <ambientLight intensity={0.1}/>
+          <boxGeometry/>
+          <meshStandardMaterial/>
+        </mesh>
+      </>
   );
 }
 
