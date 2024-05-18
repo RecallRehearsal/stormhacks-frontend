@@ -4,6 +4,7 @@ import { Button, ChakraProvider, Text } from '@chakra-ui/react'
 import axios from "axios"
 import { useState } from 'react';
 import { Canvas } from '@react-three/fiber'
+import { ScrollControls, Scroll } from '@react-three/drei';
 
 function App() {
 
@@ -38,20 +39,27 @@ function App() {
 
 
   return (
-    // <ChakraProvider>
-    //   <div className="App">
-    //     <Text>Upload your PDF here</Text>
-    //     <input type="file" onChange={handleFileChange} accept="application/pdf"/>
-    //     <Button onClick={handleUpload}>Upload PDF</Button>
-    //   </div>
-    // </ChakraProvider>
-
       <>
-        <mesh>
-          <ambientLight intensity={0.1}/>
-          <boxGeometry/>
-          <meshStandardMaterial/>
-        </mesh>
+        <ScrollControls pages={5}>
+          <mesh>
+            <ambientLight intensity={0.1}/>
+            <boxGeometry/>
+            <meshStandardMaterial/>
+          </mesh>
+
+          <Scroll></Scroll>
+
+          <Scroll html style={{width: '100%'}}>
+            <ChakraProvider>
+              <div className="App">
+                <Text>Upload your PDF here</Text>
+                <input type="file" onChange={handleFileChange} accept="application/pdf"/>
+                <Button onClick={handleUpload}>Upload PDF</Button>
+              </div>
+            </ChakraProvider>
+          </Scroll>
+
+        </ScrollControls>
       </>
   );
 }
