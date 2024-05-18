@@ -1,23 +1,47 @@
 import logo from './logo.svg';
 import './App.css';
-import { Button, ChakraProvider } from '@chakra-ui/react'
+import { Button, ChakraProvider, Text } from '@chakra-ui/react'
 import axios from "axios"
+import { useState } from 'react';
 
 function App() {
 
+    const [file, setFile] = useState(null);
 
+    const handleFileChange = (event) => {
+      setFile(event.target.files[0]);
+    };
 
+    const handleUpload = async () => {
+      if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+  
+        try {
+          const response = await axios.post('https://easy-fly-cleanly.ngrok-free.app/addDocument', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+  
+          alert('File uploaded successfully!');
+          console.log('Server Response:', response.data);
+        } catch (error) {
+          console.error('Error uploading file:', error);
+          alert('Error uploading file');
+        }
+      } else {
+        alert('No file selected!');
+      }
+    };
 
 
   return (
     <ChakraProvider>
       <div className="App">
-        <h1>
-          Hi
-        </h1>
-        <Button>
-          button
-        </Button>
+        <Text>Upload your PDF here</Text>
+        <input type="file" onChange={handleFileChange} accept="application/pdf"/>
+        <Button onClick={handleUpload}>Upload PDF</Button>
       </div>
     </ChakraProvider>
   );
