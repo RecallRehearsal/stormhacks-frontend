@@ -11,9 +11,9 @@ body,
 }
 
 .title {
-  font-size: 120px;
+  font-size: 100px;
   padding-left: 63px;
-  line-height: 0.95;
+  line-height: 1.1;
   font-family: mitogen;
 }
 
@@ -24,7 +24,7 @@ body,
   -moz-background-clip: text;
   -moz-text-fill-color: transparent;
 
-  padding-top: 86px;
+  padding-top: 56px;
 }
 
 .title-bottom {
@@ -35,7 +35,8 @@ body,
   font-size: 30px;
   width: 40%;
   padding-left: 63px;
-  padding-top: 70px;
+  padding-top: 50px;
+  font-family: montserrat;
 }
 
 .arrow-img {
@@ -47,4 +48,9 @@ body,
 @font-face {
   font-family: mitogen;
   src: url(/src/fonts/mitogen.display-regular.ttf)
+}
+
+@font-face {
+  font-family: montserrat;
+  src: url(/src/fonts/Montserrat-Regular.ttf)
 }
