@@ -4,22 +4,173 @@
 
 import useSpline from '@splinetool/r3f-spline'
 import { OrthographicCamera } from '@react-three/drei'
+import { useRef } from 'react'
+import { useFrame } from '@react-three/fiber';
 
 export default function Scene({ ...props }) {
-  const { nodes, materials } = useSpline('https://prod.spline.design/7v1-F1WQc8tIbw7M/scene.splinecode')
+  const { nodes, materials } = useSpline('https://prod.spline.design/EN5KyocdNF0HOCaE/scene.splinecode')
+
+  const blueHead = useRef();
+
+  useFrame(({ clock }) => {
+    if (blueHead.current) {
+      const time = clock.getElapsedTime();
+      const rotationAmplitude = 70;
+      blueHead.current.rotation.y = 0.77 + (rotationAmplitude * Math.sin(time * 2.2) * (Math.PI / 180));
+    }
+  });
+
   return (
     <>
       <color attach="background" args={['#f0f2f7']} />
       <group {...props} dispose={null}>
         <scene name="Scene 1">
+          <spotLight
+            name="Spot Light"
+            castShadow
+            intensity={1.23}
+            angle={Math.PI / 5}
+            distance={2000}
+            shadow-mapSize-width={1024}
+            shadow-mapSize-height={1024}
+            shadow-camera-fov={119.99999999999999}
+            shadow-camera-near={100}
+            shadow-camera-far={100000}
+            color="#fcfcc3"
+            position={[-43.65, 221.9, -295.29]}
+            rotation={[0, 0, 0.63]}
+          />
+          {/* <spotLight
+            intensity={1}
+            //First: positive = more right
+            //Second: positive = lower
+            position={[1800,1000,1000]}
+          /> */}
+          <group name="Light" position={[-39.91, 207.89, -324.89]} rotation={[0.46, 0.71, -0.31]} scale={0.69}>
+            <group name="body" position={[0.22, -22.71, 39.92]} rotation={[0.14, 0, 0]}>
+              <mesh
+                name="Cube 2"
+                geometry={nodes['Cube 2'].geometry}
+                material={materials['Cube 2 Material']}
+                castShadow
+                receiveShadow
+                position={[-0.19, 10.75, 24.74]}
+                rotation={[0, 0, 0]}
+                scale={[1.25, 1.28, 1]}
+              />
+              <mesh
+                name="Cube 6"
+                geometry={nodes['Cube 6'].geometry}
+                material={materials['Cube 6 Material']}
+                castShadow
+                receiveShadow
+                position={[-71.2, 10.18, 41.03]}
+                rotation={[-3.14, -0.69, -3.13]}
+                scale={[1.76, 1, 0.31]}
+              />
+              <mesh
+                name="Cube 5"
+                geometry={nodes['Cube 5'].geometry}
+                material={materials['Cube 5 Material']}
+                castShadow
+                receiveShadow
+                position={[69.85, 10.13, 38.78]}
+                rotation={[3.14, 0.64, -3.13]}
+                scale={[1.76, 1, 0.31]}
+              />
+              <mesh
+                name="Cube 4"
+                geometry={nodes['Cube 4'].geometry}
+                material={materials['Cube 4 Material']}
+                castShadow
+                receiveShadow
+                position={[-0.19, -56.19, 43.79]}
+                rotation={[2.33, 0, -1.57]}
+                scale={[1.76, 1, 0.31]}
+              />
+              <mesh
+                name="Cube 3"
+                geometry={nodes['Cube 3'].geometry}
+                material={materials['Cube 3 Material']}
+                castShadow
+                receiveShadow
+                position={[-0.33, 77.96, 43.35]}
+                rotation={[0.77, 0, -1.57]}
+                scale={[1.76, 1, 0.31]}
+              />
+              
+              {/* SPOTLIGHT */}
+              <mesh
+                name="Cylinder 2"
+                geometry={nodes['Cylinder 2'].geometry}
+                material={materials['Cylinder 2 Material']}
+                castShadow
+                receiveShadow
+                position={[-1.29, 10.76, 27.16]}
+                rotation={[Math.PI / 2, 0, 0]}
+                scale={[0.81, 0.05, 0.81]}
+              />
+              <mesh
+                name="Cylinder"
+                geometry={nodes.Cylinder.geometry}
+                material={materials['Cylinder Material']}
+                castShadow
+                receiveShadow
+                position={[-0.32, 11.32, -40.06]}
+                rotation={[Math.PI / 2, -1.56, 0]}
+                scale={[1, 1.39, 1]}
+              />
+            </group>
+            <group name="handle" position={[0, 64.79, -15.96]} rotation={[-Math.PI / 9, 0, 0]}>
+              <mesh
+                name="Cylinder1"
+                geometry={nodes.Cylinder1.geometry}
+                material={materials['Cylinder1 Material']}
+                castShadow
+                receiveShadow
+                position={[-0.15, 43.38, 14.93]}
+                rotation={[0, Math.PI / 2, 0]}
+                scale={[0.36, 3.07, 0.36]}
+              />
+              <mesh
+                name="Cube 61"
+                geometry={nodes['Cube 61'].geometry}
+                material={materials['Cube 61 Material']}
+                castShadow
+                receiveShadow
+                position={[0.51, -4.75, 15.06]}
+                rotation={[0, 0, Math.PI / 2]}
+                scale={[1, 0.5, 1]}
+              />
+              <mesh
+                name="Cube 7"
+                geometry={nodes['Cube 7'].geometry}
+                material={materials['Cube 7 Material']}
+                castShadow
+                receiveShadow
+                position={[-50.66, -42.21, 15.06]}
+                rotation={[0, 0, 0]}
+                scale={[1, 0.39, 1]}
+              />
+              <mesh
+                name="Cube 41"
+                geometry={nodes['Cube 41'].geometry}
+                material={materials['Cube 41 Material']}
+                castShadow
+                receiveShadow
+                position={[50.66, -42.21, 15.06]}
+                rotation={[0, 0, 0]}
+                scale={[1, 0.39, 1]}
+              />
+            </group>
+          </group>
           <mesh
             name="Cube"
             geometry={nodes.Cube.geometry}
             material={materials['Cube Material']}
             castShadow
             receiveShadow
-            position={[-187.49, 12.12, -485.8]}
-            scale={[2, 1.5, 1]}
+            position={[-481.29, 28.71, -485.8]}
           />
           <mesh
             name="Shape"
@@ -30,7 +181,7 @@ export default function Scene({ ...props }) {
             position={[5, 1, 143.25]}
             rotation={[-Math.PI / 2, 0, -Math.PI / 2]}
           />
-          <group name="OrangeDude" position={[294.6, -156.21, -319.97]} scale={1.22}>
+          <group name="OrangeDude" position={[315.04, -206.45, -319.97]} scale={1.22}>
             <group name="Wizard Hat" position={[0.15, 168.39, -20.7]} rotation={[-0.14, 0, 0]} scale={1.37}>
               <mesh
                 name="Torus"
@@ -238,8 +389,10 @@ export default function Scene({ ...props }) {
               position={[-0.82, 100.56, -4.57]}
             />
           </group>
-          <group name="Blue" position={[98.4, -156.21, -319.97]} scale={1.22}>
-            <group name="Wizard Hat1" position={[0.15, 167.75, -20.61]} rotation={[-0.14, 0, 0]} scale={1.37}>
+          <group name="Blue" position={[118.84, -206.45, -319.97]} scale={1.22}>
+            <group name="Wizard Hat1" position={[0.15, 167.75, -20.61]} rotation={[-0.14, Math.PI / 6, 0]} scale={1.37}
+                ref={blueHead}
+            >
               <mesh
                 name="Torus1"
                 geometry={nodes.Torus1.geometry}
@@ -335,7 +488,9 @@ export default function Scene({ ...props }) {
               position={[0, 10.72, -10.98]}
               scale={[1.68, 1.93, 1.34]}
             />
-            <group name="Right freckles1" position={[38.01, 90.13, 39.9]} rotation={[0, 0, Math.PI / 2]}>
+            <group name="Right freckles1" position={[38.01, 90.13, 39.9]} rotation={[0, 0, Math.PI / 2]}
+                ref={blueHead}
+            >
               <mesh
                 name="Ellipse 32"
                 geometry={nodes['Ellipse 32'].geometry}
@@ -393,7 +548,9 @@ export default function Scene({ ...props }) {
                 rotation={[0, 0, 0.75]}
               />
             </group>
-            <group name="Face1" position={[-0.35, 95.07, 54.74]}>
+            <group name="Face1" position={[-0.35, 95.07, 54.74]}
+                ref={blueHead}
+            >
               <mesh
                 name="Sphere 21"
                 geometry={nodes['Sphere 21'].geometry}
@@ -444,9 +601,10 @@ export default function Scene({ ...props }) {
               castShadow
               receiveShadow
               position={[-0.82, 100.56, -4.57]}
+              ref={blueHead}
             />
           </group>
-          <group name="podium" position={[193.6, -140.21, -164.75]} scale={0.74}>
+          <group name="podium" position={[214.05, -181.86, -164.75]} scale={0.74}>
             <mesh
               name="Cube3"
               geometry={nodes.Cube3.geometry}
@@ -459,9 +617,9 @@ export default function Scene({ ...props }) {
             />
             <group name="Mic 2" position={[69.94, 78.86, -15.58]} rotation={[0, 0.64, 0]} scale={1}>
               <mesh
-                name="Cube 4"
-                geometry={nodes['Cube 4'].geometry}
-                material={materials['Cube 4 Material']}
+                name="Cube 42"
+                geometry={nodes['Cube 42'].geometry}
+                material={materials['Cube 42 Material']}
                 castShadow
                 receiveShadow
                 position={[7.36, 37.46, 3.47]}
@@ -479,9 +637,9 @@ export default function Scene({ ...props }) {
             </group>
             <group name="Mic" position={[-72.47, 77.52, -26.41]} rotation={[-Math.PI, 0.65, -Math.PI]}>
               <mesh
-                name="Cube 41"
-                geometry={nodes['Cube 41'].geometry}
-                material={materials['Cube 41 Material']}
+                name="Cube 43"
+                geometry={nodes['Cube 43'].geometry}
+                material={materials['Cube 43 Material']}
                 castShadow
                 receiveShadow
                 position={[7.36, 37.46, 3.47]}
@@ -507,27 +665,27 @@ export default function Scene({ ...props }) {
               scale={[1, 0.63, 1]}
             />
             <mesh
-              name="Cube 42"
-              geometry={nodes['Cube 42'].geometry}
-              material={materials['Cube 42 Material']}
+              name="Cube 44"
+              geometry={nodes['Cube 44'].geometry}
+              material={materials['Cube 44 Material']}
               castShadow
               receiveShadow
               position={[0.23, -164.26, 1.35]}
               scale={[1.66, 0.23, 1.22]}
             />
             <mesh
-              name="Cube 3"
-              geometry={nodes['Cube 3'].geometry}
-              material={materials['Cube 3 Material']}
+              name="Cube 31"
+              geometry={nodes['Cube 31'].geometry}
+              material={materials['Cube 31 Material']}
               castShadow
               receiveShadow
               position={[0.23, -149.54, 1.35]}
               scale={[1.91, 0.26, 1.39]}
             />
             <mesh
-              name="Cube 2"
-              geometry={nodes['Cube 2'].geometry}
-              material={materials['Cube 2 Material']}
+              name="Cube 21"
+              geometry={nodes['Cube 21'].geometry}
+              material={materials['Cube 21 Material']}
               castShadow
               receiveShadow
               position={[0.47, -63.35, 36.05]}
@@ -540,9 +698,9 @@ export default function Scene({ ...props }) {
             material={materials['Path4 Material']}
             castShadow
             receiveShadow
-            position={[15.75, 8.62, -490.12]}
+            position={[15.75, 15.62, -490.12]}
             rotation={[-Math.PI / 2, 0, -Math.PI / 2]}
-            scale={[-1, 1, 10.32]}
+            scale={[-1, 1, 12.11]}
           />
           <mesh
             name="Rectangle"
@@ -550,7 +708,7 @@ export default function Scene({ ...props }) {
             material={materials['Rectangle Material']}
             castShadow
             receiveShadow
-            position={[17.25, -10.13, -592.02]}
+            position={[95.85, -58.74, -592.02]}
           />
           <directionalLight
             name="Directional Light"
@@ -566,10 +724,9 @@ export default function Scene({ ...props }) {
             shadow-camera-bottom={-1000}
             position={[200, 300, 300]}
           />
-
-          {/* ZOOM CHANGED HERE */}
-          <OrthographicCamera name="1" makeDefault={true} far={10000} near={-50000} zoom={1.45}/>
-          <hemisphereLight name="Default Ambient Light" intensity={0.75} color="#eaeaea" />
+          <OrthographicCamera name="1" makeDefault={true} far={10000} near={-50000} zoom={1.3} position={[-40, -30, 0]}/>
+          {/* <hemisphereLight name="Default Ambient Light" intensity={0.75} color="#eaeaea" /> */}
+          {/* <hemisphereLight name="Default Ambient Light" intensity={1} color="#eaeaea" /> */}
         </scene>
       </group>
     </>
