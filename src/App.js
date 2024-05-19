@@ -1,10 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import { Button, ChakraProvider, Text } from '@chakra-ui/react'
+import { Button, ChakraProvider, Image, Text } from '@chakra-ui/react'
 import axios from "axios"
 import { useState } from 'react';
-import { Canvas } from '@react-three/fiber'
 import { ScrollControls, Scroll } from '@react-three/drei';
+import WebAppStage from './components/WebAppStage'
+import arrow from './images/arrow.png'
 
 function App() {
 
@@ -41,18 +42,27 @@ function App() {
   return (
       <>
         <ScrollControls pages={5}>
-          <mesh>
-            <ambientLight intensity={0.1}/>
-            <boxGeometry/>
-            <meshStandardMaterial/>
-          </mesh>
+          <WebAppStage scale={3}/>
 
           <Scroll></Scroll>
 
           <Scroll html style={{width: '100%'}}>
             <ChakraProvider>
               <div className="App">
-                <Text>Upload your PDF here</Text>
+                <Text className='title title-top'>
+                  Recall
+                </Text>
+                <Text className='title title-bottom' background="linear-gradient(93deg, #12E9F1 24.27%, #BF7FEA 112.43%)"
+                    backgroundClip={'text'}>
+                  Realm
+                </Text>
+
+                <Text className='description-text'>
+                  Step into a dynamic learning experience where your lecture notes come to life!
+                </Text>
+
+                <Image src={arrow}/>
+
                 <input type="file" onChange={handleFileChange} accept="application/pdf"/>
                 <Button onClick={handleUpload}>Upload PDF</Button>
               </div>
