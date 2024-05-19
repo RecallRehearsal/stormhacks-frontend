@@ -6,7 +6,7 @@ import useSpline from '@splinetool/r3f-spline'
 import { OrthographicCamera } from '@react-three/drei'
 import { useEffect, useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { MathUtils } from 'three';
+import { Vector3, MathUtils } from 'three';
 
 export default function Scene({ fileUploaded, ...props }) {
   const { nodes, materials } = useSpline('https://prod.spline.design/Qwlv4KYypqNTrRRf/scene.splinecode')
@@ -15,29 +15,87 @@ export default function Scene({ fileUploaded, ...props }) {
   const orangeHead = useRef();
   const leftLight = useRef();
   const cameraRef = useRef();
+  const leftCurtainRef = useRef();
+  const rightCurtainRef = useRef();
 
   const [targetZoom, setTargetZoom] = useState(null);
+  const [targetPosition, setTargetPosition] = useState(null);
+  const [curtainsMoved, setCurtainsMoved] = useState(false);
+
+  const [animationProgress, setAnimationProgress] = useState(0);
+  const [curtainStartPosition, setCurtainStartPosition] = useState({ left: 0, right: 0 });
 
   useEffect(() => {
     if (fileUploaded) {
-      setTargetZoom(cameraRef.current ? cameraRef.current.zoom * 2 : null);
+    const currentPosition = cameraRef.current.position;
+      const newPosition = new Vector3(
+        currentPosition.x + 1085, // Move right by decreasing x
+        currentPosition.y + 30, // Move up by increasing y
+        currentPosition.z      // Keep z the same
+      );
+      setTargetPosition(newPosition);
+
+      setCurtainStartPosition({
+          left: leftCurtainRef.current.position.x,
+          right: rightCurtainRef.current.position.x
+      })
     }
   }, [fileUploaded]);
 
-  useFrame((state, delta) => {
+  useFrame(() => {
     const camera = cameraRef.current;
-    if (camera && targetZoom !== null) {
-      // Ease the zoom
-      camera.zoom += (targetZoom - camera.zoom) * 0.01; //smaller value -> slower transition
-      camera.updateProjectionMatrix();
-
-      if (Math.abs(camera.zoom - targetZoom) < 0.01) {
-        setTargetZoom(null);
-        camera.zoom = targetZoom;
-        camera.updateProjectionMatrix();
+    if (camera && targetPosition) {
+      // Smooth transition to new position
+      camera.position.lerp(targetPosition, 0.02); // Modify 0.02 to adjust the speed of the movement
+      if (camera.position.distanceTo(targetPosition) < 0.1) {
+        camera.position.copy(targetPosition);
+        setTargetPosition(null);
+        // setCurtainsMoved(true);
+        if (animationProgress === 0) setAnimationProgress(0.01);
       }
     }
   });
+
+  useFrame(() => {
+    if (animationProgress > 0 && animationProgress < 1) {
+      const easeInOutSine = t => -(Math.cos(Math.PI * t) - 1) / 2;
+      const progress = easeInOutSine(animationProgress);
+      leftCurtainRef.current.position.x = MathUtils.lerp(curtainStartPosition.left, curtainStartPosition.left - 1000, progress);
+      rightCurtainRef.current.position.x = MathUtils.lerp(curtainStartPosition.right, curtainStartPosition.right + 1000, progress);
+      setAnimationProgress(animationProgress + 0.01); // Update progress
+      if (animationProgress >= 1) {
+        setAnimationProgress(0); // Reset or stop animation
+      }
+    }
+  });
+
+//   useFrame(() => {
+//     if (curtainsMoved) {
+//       const leftPosition = leftCurtainRef.current.position;
+//       const rightPosition = rightCurtainRef.current.position;
+//       leftCurtainRef.current.position.x -= 400;  // Move left curtain further left
+//       rightCurtainRef.current.position.x += 400; // Move right curtain further right
+
+//       // Optionally, stop moving curtains at some condition, for example:
+//       if (leftPosition.x < -1000 && rightPosition.x > 1000) {
+//         setCurtainsMoved(false); // Stop the animation
+//       }
+//     }
+//   });
+//   useFrame((state, delta) => {
+//     const camera = cameraRef.current;
+//     if (camera && targetZoom !== null) {
+//       // Ease the zoom
+//       camera.zoom += (targetZoom - camera.zoom) * 0.01; //smaller value -> slower transition
+//       camera.updateProjectionMatrix();
+
+//       if (Math.abs(camera.zoom - targetZoom) < 0.01) {
+//         setTargetZoom(null);
+//         camera.zoom = targetZoom;
+//         camera.updateProjectionMatrix();
+//       }
+//     }
+//   });
 
   useFrame(({ clock }) => {
     if (blueHead.current) {
@@ -894,7 +952,9 @@ export default function Scene({ fileUploaded, ...props }) {
               scale={[1.17, 1, 1]}
             />
           </group>
-          <group name="Group 2" position={[1638.43, 106.85, -490.12]} scale={[1, 1.35, 1]}>
+
+          {/* right curtain */}
+          <group name="Group 2" position={[1638.43, 106.85, -490.12]} scale={[1, 1.35, 1]} ref={rightCurtainRef}>
             <mesh
               name="Path 4"
               geometry={nodes['Path 4'].geometry}
@@ -916,7 +976,9 @@ export default function Scene({ fileUploaded, ...props }) {
               scale={[-1, 1, 12.11]}
             />
           </group>
-          <group name="Group" position={[540.99, 106.85, -490.12]} scale={[1, 1.35, 1]}>
+
+          {/* left curtain */}
+          <group name="Group" position={[540.99, 106.85, -490.12]} scale={[1, 1.35, 1]} ref={leftCurtainRef}>
             <mesh
               name="Path 22"
               geometry={nodes['Path 22'].geometry}
