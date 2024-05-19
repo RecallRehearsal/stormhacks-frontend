@@ -6,6 +6,7 @@ import useSpline from '@splinetool/r3f-spline'
 import { OrthographicCamera } from '@react-three/drei'
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { MathUtils } from 'three';
 
 export default function Scene({ ...props }) {
   const { nodes, materials } = useSpline('https://prod.spline.design/Qwlv4KYypqNTrRRf/scene.splinecode')
@@ -935,7 +936,8 @@ export default function Scene({ ...props }) {
             shadow-camera-bottom={-1000}
             position={[200, 300, 300]}
           />
-          <OrthographicCamera name="1" makeDefault={true} far={10000} near={-50000} zoom={1.3} position={[-40, -30, 0]}/>
+          {/* <OrthographicCamera name="1" makeDefault={true} far={10000} near={-50000} zoom={1.3} position={[-40, -30, 0]}/> */}
+          <OrthographicCamera name="1" makeDefault={true} far={10000} near={-50000} zoom={1.3} position={[-40, -15, 0]} rotation={[MathUtils.degToRad(-7), 0, 0]}/>
           <hemisphereLight name="Default Ambient Light" intensity={0.005} color="#eaeaea" />
         </scene>
       </group>
