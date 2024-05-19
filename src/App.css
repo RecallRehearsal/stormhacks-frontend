@@ -12,6 +12,8 @@ body,
 
 .title {
   font-size: 120px;
+  padding-left: 63px;
+  line-height: 0.95;
 }
 
 .title-top {
@@ -20,6 +22,8 @@ body,
   -webkit-text-fill-color: transparent; 
   -moz-background-clip: text;
   -moz-text-fill-color: transparent;
+
+  padding-top: 86px;
 }
 
 .title-bottom {
@@ -29,4 +33,10 @@ body,
 .description-text {
   font-size: 30px;
   width: 40%;
+  padding-left: 63px;
+  padding-top: 70px;
+}
+
+.arrow-img {
+  padding-left: 63px;
 }

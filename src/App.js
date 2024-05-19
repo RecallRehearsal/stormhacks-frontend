@@ -5,6 +5,7 @@ import axios from "axios"
 import { useState } from 'react';
 import { ScrollControls, Scroll } from '@react-three/drei';
 import WebAppStage from './components/WebAppStage'
+import StageTwo from './components/StageTwo'
 import arrow from './images/arrow.png'
 
 function App() {
@@ -41,8 +42,9 @@ function App() {
 
   return (
       <>
-        <ScrollControls pages={5}>
-          <WebAppStage scale={3}/>
+        <ScrollControls pages={1}>
+          {/* <WebAppStage/> */}
+          <StageTwo/>
 
           <Scroll></Scroll>
 
@@ -52,19 +54,18 @@ function App() {
                 <Text className='title title-top'>
                   Recall
                 </Text>
-                <Text className='title title-bottom' background="linear-gradient(93deg, #12E9F1 24.27%, #BF7FEA 112.43%)"
-                    backgroundClip={'text'}>
-                  Realm
+                <Text className='title title-bottom'>
+                  Rehearsal
                 </Text>
 
                 <Text className='description-text'>
                   Step into a dynamic learning experience where your lecture notes come to life!
                 </Text>
 
-                <Image src={arrow}/>
+                <Image className='arrow-img' src={arrow}/>
 
                 <input type="file" onChange={handleFileChange} accept="application/pdf"/>
-                <Button onClick={handleUpload}>Upload PDF</Button>
+                <Button onClick={handleUpload}>Upload your PDF</Button>
               </div>
             </ChakraProvider>
           </Scroll>
