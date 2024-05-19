@@ -13,7 +13,7 @@ body,
 .title {
   font-size: 100px;
   padding-left: 83px;
-  line-height: 1.1;
+  line-height: 1.2;
   font-family: mitogen;
 }
 
@@ -23,7 +23,6 @@ body,
   -webkit-text-fill-color: transparent; 
   -moz-background-clip: text;
   -moz-text-fill-color: transparent;
-
   padding-top: 56px;
 }
 
@@ -32,10 +31,10 @@ body,
 }
 
 .description-text {
-  font-size: 25px;
+  font-size: 30px;
   width: 38%;
   padding-left: 83px;
-  padding-top: 50px;
+  padding-top: 40px;
   font-family: montserrat;
 
   margin-bottom: 10px;
@@ -45,6 +44,7 @@ body,
 
 .arrow-img {
   padding-left: 163px;
+  margin-left: 60px;
   width: 420px;
   position: relative;
   display: block;
@@ -52,7 +52,7 @@ body,
 }
 
 .pdf-button {
-  margin-top: 30px;
+  margin-top: 10px;
   margin-left: 83px;
   color: white !important;
   background-color: #650DAA !important;
