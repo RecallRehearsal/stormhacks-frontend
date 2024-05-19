@@ -9,6 +9,7 @@ import StageThree from './components/StageThree'
 import StageFour from './components/StageFour'
 import arrow from './images/arrow.svg'
 import upload from './images/upload.svg'
+import vrHeadset from './images/VRHeadset.svg'
 
 function App() {
 
