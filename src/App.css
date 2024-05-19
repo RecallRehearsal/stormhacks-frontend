@@ -12,7 +12,7 @@ body,
 
 .title {
   font-size: 100px;
-  padding-left: 63px;
+  padding-left: 83px;
   line-height: 1.1;
   font-family: mitogen;
 }
@@ -32,17 +32,51 @@ body,
 }
 
 .description-text {
-  font-size: 27px;
-  width: 40%;
-  padding-left: 63px;
+  font-size: 25px;
+  width: 38%;
+  padding-left: 83px;
   padding-top: 50px;
   font-family: montserrat;
+
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
 }
 
 .arrow-img {
   padding-left: 163px;
-  width: 35%;
+  width: 420px;
+  position: relative;
+  display: block;
+  top: -30px;
 }
+
+.pdf-button {
+  margin-top: 30px;
+  margin-left: 83px;
+  color: white !important;
+  background-color: #650DAA !important;
+  cursor: pointer;
+  border-radius: 30px !important;
+  height: 4rem !important;
+}
+
+.pdf-button:hover {
+  background-color: #550c8d !important;
+}
+
+.upload-img {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.button-text {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  font-family: montserrat;
+}
+
 
 
 /* FONTS */
