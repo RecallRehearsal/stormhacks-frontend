@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { Button, ChakraProvider, Image, Text } from '@chakra-ui/react'
 import axios from "axios"
@@ -14,6 +13,8 @@ import upload from './images/upload.svg'
 function App() {
 
     const [file, setFile] = useState(null);
+    const [fileUploaded, setFileUploaded] = useState(false);
+
 
     const fileInputRef = useRef(null);
 
@@ -32,8 +33,10 @@ function App() {
       
               alert('File uploaded successfully!');
               console.log('Server Response:', response.data);
+              setFileUploaded(true);
             } catch (error) {
               console.error('Error uploading file:', error);
+              setFileUploaded(true);
             }
         }
     };
@@ -47,7 +50,7 @@ function App() {
       <>
         <ScrollControls pages={1}>
 
-          <StageFour/>
+          <StageFour fileUploaded={fileUploaded}/>
           {/* <StageThree/> */}
 
           <Scroll></Scroll>

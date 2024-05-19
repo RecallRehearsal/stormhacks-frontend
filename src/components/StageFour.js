@@ -4,16 +4,40 @@
 
 import useSpline from '@splinetool/r3f-spline'
 import { OrthographicCamera } from '@react-three/drei'
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { MathUtils } from 'three';
 
-export default function Scene({ ...props }) {
+export default function Scene({ fileUploaded, ...props }) {
   const { nodes, materials } = useSpline('https://prod.spline.design/Qwlv4KYypqNTrRRf/scene.splinecode')
 
   const blueHead = useRef();
   const orangeHead = useRef();
   const leftLight = useRef();
+  const cameraRef = useRef();
+
+  const [targetZoom, setTargetZoom] = useState(null);
+
+  useEffect(() => {
+    if (fileUploaded) {
+      setTargetZoom(cameraRef.current ? cameraRef.current.zoom * 2 : null);
+    }
+  }, [fileUploaded]);
+
+  useFrame((state, delta) => {
+    const camera = cameraRef.current;
+    if (camera && targetZoom !== null) {
+      // Ease the zoom
+      camera.zoom += (targetZoom - camera.zoom) * 0.01; //smaller value -> slower transition
+      camera.updateProjectionMatrix();
+
+      if (Math.abs(camera.zoom - targetZoom) < 0.01) {
+        setTargetZoom(null);
+        camera.zoom = targetZoom;
+        camera.updateProjectionMatrix();
+      }
+    }
+  });
 
   useFrame(({ clock }) => {
     if (blueHead.current) {
@@ -937,7 +961,7 @@ export default function Scene({ ...props }) {
             position={[200, 300, 300]}
           />
           {/* <OrthographicCamera name="1" makeDefault={true} far={10000} near={-50000} zoom={1.3} position={[-40, -30, 0]}/> */}
-          <OrthographicCamera name="1" makeDefault={true} far={10000} near={-50000} zoom={1.3} position={[-40, -15, 0]} rotation={[MathUtils.degToRad(-7), 0, 0]}/>
+          <OrthographicCamera ref={cameraRef} name="1" makeDefault={true} far={10000} near={-50000} zoom={1.3} position={[-40, -15, 0]} rotation={[MathUtils.degToRad(-7), 0, 0]}/>
           <hemisphereLight name="Default Ambient Light" intensity={0.005} color="#eaeaea" />
         </scene>
       </group>
