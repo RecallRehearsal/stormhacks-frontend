@@ -14,6 +14,7 @@ body,
   font-size: 120px;
   padding-left: 63px;
   line-height: 0.95;
+  font-family: mitogen;
 }
 
 .title-top {
@@ -39,4 +40,11 @@ body,
 
 .arrow-img {
   padding-left: 63px;
+}
+
+
+/* FONTS */
+@font-face {
+  font-family: mitogen;
+  src: url(/src/fonts/mitogen.display-regular.ttf)
 }
