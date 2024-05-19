@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Vector3, MathUtils } from 'three';
 
-export default function Scene({ fileUploaded, ...props }) {
+export default function Scene({ fileUploaded, onAnimationComplete, ...props }) {
   const { nodes, materials } = useSpline('https://prod.spline.design/ziEFn4pDFhxE5Ldi/scene.splinecode')
 
   const blueHead = useRef();
@@ -23,6 +23,7 @@ export default function Scene({ fileUploaded, ...props }) {
   const [curtainsMoved, setCurtainsMoved] = useState(false);
 
   const [animationProgress, setAnimationProgress] = useState(0);
+  const [animationComplete, setAnimationComplete] = useState(false);
   const [curtainStartPosition, setCurtainStartPosition] = useState({ left: 0, right: 0 });
   const [cameraStartPosition, setCameraStartPosition] = useState(null);
   const [cameraTargetPosition, setCameraTargetPosition] = useState(null);
@@ -32,9 +33,8 @@ export default function Scene({ fileUploaded, ...props }) {
     const currentPosition = cameraRef.current.position;
       const newPosition = new Vector3(
         currentPosition.x + 1085, // Move right by decreasing x
-        //currentPosition.y + 30, // Move up by increasing y
         currentPosition.y,
-        currentPosition.z      // Keep z the same
+        currentPosition.z
       );
       setTargetPosition(newPosition);
 
@@ -61,30 +61,27 @@ export default function Scene({ fileUploaded, ...props }) {
     }
   });
 
-//   useFrame(() => {
-//     if (animationProgress > 0 && animationProgress < 1) {
-//       const easeInOutSine = t => -(Math.cos(Math.PI * t) - 1) / 2;
-//       const progress = easeInOutSine(animationProgress);
-//       leftCurtainRef.current.position.x = MathUtils.lerp(curtainStartPosition.left, curtainStartPosition.left - 1000, progress);
-//       rightCurtainRef.current.position.x = MathUtils.lerp(curtainStartPosition.right, curtainStartPosition.right + 1000, progress);
-//       setAnimationProgress(animationProgress + 0.01); // Update progress
-//       if (animationProgress >= 1) {
-//         setAnimationProgress(0); // Reset or stop animation
-//       }
-//     }
-//   });
+    useFrame(() => {
+        if (animationProgress > 0 && animationProgress < 1) {
+        const easeInOutSine = t => -(Math.cos(Math.PI * t) - 1) / 2;
+        const progress = easeInOutSine(animationProgress);
+        leftCurtainRef.current.position.x = MathUtils.lerp(curtainStartPosition.left, curtainStartPosition.left - 1000, progress);
+        rightCurtainRef.current.position.x = MathUtils.lerp(curtainStartPosition.right, curtainStartPosition.right + 1000, progress);
+        cameraRef.current.position.y = MathUtils.lerp(cameraStartPosition.y, cameraTargetPosition.y, progress);
+        setAnimationProgress(animationProgress + 0.01); // Update progress
+        setAnimationComplete(true);
+        if (animationProgress >= 1) {
+            setAnimationProgress(1);
 
-  useFrame(() => {
-    if (animationProgress > 0 && animationProgress < 1) {
-      const easeInOutSine = t => -(Math.cos(Math.PI * t) - 1) / 2;
-      const progress = easeInOutSine(animationProgress);
-      leftCurtainRef.current.position.x = MathUtils.lerp(curtainStartPosition.left, curtainStartPosition.left - 1000, progress);
-      rightCurtainRef.current.position.x = MathUtils.lerp(curtainStartPosition.right, curtainStartPosition.right + 1000, progress);
-      cameraRef.current.position.y = MathUtils.lerp(cameraStartPosition.y, cameraTargetPosition.y, progress);
-      setAnimationProgress(animationProgress + 0.01); // Update progress
-      if (animationProgress >= 1) {
-        setAnimationProgress(0); // Reset or stop animation
-      }
+            //
+            console.log(animationComplete, " IS ANIMATION COMPLETE");
+            setAnimationComplete(true);
+
+            if (!animationComplete) {
+                setAnimationComplete(true);
+                onAnimationComplete();
+            }
+        }
     }
   });
 

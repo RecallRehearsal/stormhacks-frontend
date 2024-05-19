@@ -79,6 +79,34 @@ body,
   font-family: montserrat;
 }
 
+.vr-text {
+  display: flex;
+  color: #fff;
+  font-family: montserrat;
+  font-size: 35px;
+}
+
+.vr-text-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  opacity: 0;
+  transition: opacity 6s ease-in;
+}
+
+.vr-text-container.fade-in {
+  opacity: 1;
+}
+
+.vr-icon {
+  margin-left: 10px;
+}
 
 
 /* FONTS */
