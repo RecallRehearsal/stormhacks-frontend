@@ -12,11 +12,12 @@ export default function Scene({ ...props }) {
 
   const blueHead = useRef();
   const orangeHead = useRef();
+  const leftLight = useRef();
 
   useFrame(({ clock }) => {
     if (blueHead.current) {
       const time = clock.getElapsedTime();
-      const rotationAmplitude = 2.5;
+      const rotationAmplitude = 2.1;
       blueHead.current.rotation.x = 0 + (rotationAmplitude * Math.sin(time * 2.2) * (Math.PI / 180));
     }
   });
@@ -24,8 +25,16 @@ export default function Scene({ ...props }) {
   useFrame(({ clock }) => {
     if (orangeHead.current) {
       const time = clock.getElapsedTime() ;
-      const rotationAmplitude = 2.7;
+      const rotationAmplitude = 2.3;
       orangeHead.current.rotation.x = 0 + (rotationAmplitude * Math.sin((time - 0.4) * 2.2) * (Math.PI / 180));
+    }
+  });
+
+  useFrame(({ clock }) => {
+    if (leftLight.current) {
+      const time = clock.getElapsedTime();
+      const rotationAmplitude = 8;
+      leftLight.current.rotation.x = 0 + (rotationAmplitude * Math.sin(time * 1.2) * (Math.PI / 180));
     }
   });
 
@@ -629,7 +638,7 @@ export default function Scene({ ...props }) {
               rotation={[0, 0, 0.63]}
             />
             <group name="Light" position={[-21.54, -99.57, -22.36]} rotation={[0.46, 0.71, -0.31]} scale={0.69}>
-              <group name="body1" position={[0.22, -22.71, 39.92]} rotation={[0.14, 0, 0]}>
+              <group name="body1" position={[0.22, -22.71, 39.92]} rotation={[0.14, 0, 0]} ref={leftLight}>
                 <mesh
                   name="Cube 21"
                   geometry={nodes['Cube 21'].geometry}
@@ -927,7 +936,7 @@ export default function Scene({ ...props }) {
             position={[200, 300, 300]}
           />
           <OrthographicCamera name="1" makeDefault={true} far={10000} near={-50000} zoom={1.3} position={[-40, -30, 0]}/>
-          {/* <hemisphereLight name="Default Ambient Light" intensity={0.75} color="#eaeaea" /> */}
+          <hemisphereLight name="Default Ambient Light" intensity={0.005} color="#eaeaea" />
         </scene>
       </group>
     </>
