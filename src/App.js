@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { ScrollControls, Scroll } from '@react-three/drei';
 import WebAppStage from './components/WebAppStage'
 import StageTwo from './components/StageTwo'
+import StageThree from './components/StageThree'
 import arrow from './images/arrow.png'
 
 function App() {
@@ -44,7 +45,8 @@ function App() {
       <>
         <ScrollControls pages={1}>
           {/* <WebAppStage/> */}
-          <StageTwo/>
+          {/* <StageTwo/> */}
+          <StageThree/>
 
           <Scroll></Scroll>
 
