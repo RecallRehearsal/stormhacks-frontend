@@ -3,10 +3,6 @@ import { Box, Button, ChakraProvider, Image, Text, Fade } from '@chakra-ui/react
 import axios from "axios"
 import { useEffect, useRef, useState } from 'react';
 import { ScrollControls, Scroll } from '@react-three/drei';
-import WebAppStage from './components/WebAppStage'
-import StageTwo from './components/StageTwo'
-import StageThree from './components/StageThree'
-import StageFour from './components/StageFour'
 import StageFive from './components/StageFive'
 import arrow from './images/arrow.svg'
 import upload from './images/upload.svg'
